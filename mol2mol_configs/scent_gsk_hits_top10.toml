@@ -1,0 +1,15 @@
+run_type = "sampling"
+device = "cuda:118"
+json_out_config = "output/_scent_gsk_hits_top10_sampling.json"
+
+[parameters]
+model_file = "priors/mol2mol_similarity.prior"
+smiles_file = "mol2mol_configs/scent_gsk_hits_top10.smi"  # 1 compound per line
+sample_strategy = "multinomial"  # multinomial or beamsearch (deterministic)
+temperature = 1.0
+
+output_file = 'output/scent_gsk_hits_top10_analogs.csv'
+
+num_smiles = 10000  # number of SMILES to be sampled, 1 per input SMILES
+unique_molecules = false  # if true remove all duplicatesd canonicalize smiles
+randomize_smiles = true # if true shuffle atoms in SMILES randomly

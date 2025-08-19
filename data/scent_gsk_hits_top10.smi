@@ -1,0 +1,10 @@
+Nc1ccncc1CNc1cc(-c2cc(Br)cnc2Nc2ccc(-c3ccc4[nH]cc(C=O)c4c3)cc2)n[nH]1
+Nc1ccncc1CNc1cccc(-c2ccc3[nH]cc(-c4nc5c(Nc6nc(F)nc7[nH]cnc67)cccc5[nH]4)c3c2)c1
+Nc1ccncc1CNc1ccc(-c2ccc3[nH]cc(CNc4cc(Nc5nc(F)nc6[nH]cnc56)n[nH]4)c3c2)cc1
+Nc1ccc(-c2ccc3[nH]cc(CNc4ccncc4CNc4n[nH]cc4NCCc4ccncc4)c3c2)cc1
+Nc1ccc(-c2ccc3[nH]cc(CNc4n[nH]cc4-c4cccc(NCc5ncccc5C(F)(F)F)c4)c3c2)cn1
+Nc1ccc(-c2ccc3[nH]cc(CNc4n[nH]cc4-c4cccc(Nc5ccnc(F)c5)c4)c3c2)cn1
+Nc1ccc(-c2ccc3[nH]cc(CNc4n[nH]cc4-c4cccc(NCc5ccnc(F)c5)c4)c3c2)cc1
+Nc1ccc(-c2ccc3[nH]cc(CNc4ccncc4CNc4n[nH]cc4-c4cc(Br)cnc4F)c3c2)cc1
+Nc1ccc(-c2ccc3[nH]cc(CNc4ccncc4CNc4cc(-c5cc(Br)cnc5F)n[nH]4)c3c2)cc1
+Nc1ccc(-c2ccc3[nH]cc(CNc4ccc(-c5c[nH]nc5NCc5ccncc5F)cc4)c3c2)cn1
