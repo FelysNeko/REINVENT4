@@ -4,7 +4,7 @@ json_out_config = "output/_scent_jnk3_hit_sampling.json"
 
 [parameters]
 model_file = "priors/mol2mol_similarity.prior"
-smiles_file = "mol2mol_configs/scent_jnk3_hit.smi"  # 1 compound per line
+smiles_file = "data/scent_jnk3_hit.smi"  # 1 compound per line
 sample_strategy = "multinomial"  # multinomial or beamsearch (deterministic)
 temperature = 1.0
 
