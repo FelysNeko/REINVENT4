@@ -1,5 +1,5 @@
 run_type = "sampling"
-device = "cuda:118"
+device = "cuda:0"
 json_out_config = "output/_scent_jnk3_hit_sampling.json"
 
 [parameters]
