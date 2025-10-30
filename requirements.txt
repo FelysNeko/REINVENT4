@@ -1,0 +1,12 @@
+torch
+xxhash
+dotenv
+pyyaml
+tomli
+requests
+molvs
+tensorboard
+torchvision
+pumas
+tqdm
+mmpdb

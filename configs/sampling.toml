@@ -25,10 +25,10 @@ json_out_config = "_sampling.json"  # write this TOML to JSON
 
 ## Mol2Mol: find molecules similar to the provided molecules
 model_file = "priors/mol2mol_medium_similarity.prior"
-smiles_file = "mol2mol.smi"  # 1 compound per line
+smiles_file = "configs/mol2mol.smi"  # 1 compound per line
 sample_strategy = "multinomial"  # multinomial or beamsearch (deterministic)
 temperature = 1.0 # temperature in multinomial sampling
-tb_logdir = "tb_logs"  # name of the TensorBoard logging directory
+#tb_logdir = "tb_logs"  # name of the TensorBoard logging directory
 
 ## Pepinvent
 #model_file = "priors/pepinvent.prior"
