@@ -7,6 +7,8 @@ import logging
 from rdkit import Chem
 import torch.utils.data as tud
 
+from tqdm import tqdm
+
 from .sampler import Sampler, validate_smiles, remove_duplicate_sequences
 from . import params
 from reinvent.models.transformer.core.dataset.dataset import Dataset
@@ -54,7 +56,7 @@ class Mol2MolSampler(Sampler):
 
         sequences = []
 
-        for batch in dataloader:
+        for batch in tqdm(dataloader):
             src, src_mask = batch
 
             sampled = self.model.sample(src, src_mask, self.sample_strategy)

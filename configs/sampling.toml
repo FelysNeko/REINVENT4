@@ -4,7 +4,7 @@
 
 run_type = "sampling"
 device = "cuda:0"  # set torch device e.g. "cpu"
-json_out_config = "_sampling.json"  # write this TOML to JSON
+# json_out_config = "_sampling.json"  # write this TOML to JSON
 
 
 [parameters]
@@ -27,7 +27,7 @@ json_out_config = "_sampling.json"  # write this TOML to JSON
 model_file = "priors/mol2mol_medium_similarity.prior"
 smiles_file = "configs/mol2mol.smi"  # 1 compound per line
 sample_strategy = "multinomial"  # multinomial or beamsearch (deterministic)
-temperature = 1.0 # temperature in multinomial sampling
+temperature = 1.5 # temperature in multinomial sampling
 #tb_logdir = "tb_logs"  # name of the TensorBoard logging directory
 
 ## Pepinvent
@@ -39,6 +39,6 @@ temperature = 1.0 # temperature in multinomial sampling
 
 output_file = 'sampling.csv'  # sampled SMILES and NLL in CSV format
 
-num_smiles = 5  # number of SMILES to be sampled, 1 per input SMILES
+num_smiles = 100000  # number of SMILES to be sampled, 1 per input SMILES
 unique_molecules = true  # if true remove all duplicatesd canonicalize smiles
 randomize_smiles = true # if true shuffle atoms in SMILES randomly
