@@ -55,9 +55,11 @@ def compute_component_scores(
     # this can occur for example in LinkInvent when multiple warheads generate the same linker
     smilies_to_score_indices, masked_scores_indices, cache_hits_indices = [], [], []
 
+    use_cache = cache is not None  # some components need the cache to be turned off
+
     for idx, (filter_flag, smiles) in enumerate(zip(filter_mask, smilies)):
         if filter_flag:
-            if smiles in cache.keys():
+            if use_cache and smiles in cache.keys():
                 cache_hits.append(smiles)
                 cache_hits_indices.append(idx)
             else:
@@ -91,26 +93,20 @@ def compute_component_scores(
         index_smiles_to_score = smilies_to_score
         index_smiles_with_masked_scores = smiles_with_masked_scores
 
-    # debug statement here as invalids are passed in as "None" instead of smiles.
-    logger.debug(
-        f"Masked smilies for {type(scoring_function).__name__} are {smiles_with_masked_scores}"
-    )
-
     if len(smilies_to_score) > 0:
         component_results = SmilesAssociatedComponentResults(
             component_results=scoring_function(smilies_to_score), smiles=index_smiles_to_score
         )
 
-        # update cache
-        cache.update((smiles, component_results[smiles]) for smiles in index_smiles_to_score)
-
+        if use_cache:
+            cache.update((smiles, component_results[smiles]) for smiles in index_smiles_to_score)
     else:
         # in this case, there are no compounds to score. Create blank ComponentResults
         component_results = SmilesAssociatedComponentResults.create_from_scores(
             smiles=[], scores=[[]]
         )
 
-    if len(cache_hits) > 0:  # update the results
+    if use_cache and len(cache_hits) > 0:  # update the results
         for smiles in cache_hits:
             component_results.data[smiles] = cache[smiles]
 
@@ -130,7 +126,7 @@ def compute_transform(
     component_type,
     params: Tuple,
     smilies: List[str],
-    caches: dict,
+    cache: dict,
     valid_mask: np.ndarray[bool],
     index_smiles: Optional[List[str]] = None,
     use_pumas: bool = False,
@@ -140,7 +136,7 @@ def compute_transform(
     :param component_type: type of the component
     :param params: parameters for the component
     :param smilies: list of SMILES
-    :param caches: the component's cache
+    :param cache: the component's cache
     :param valid_mask: mask for valid SMILES, i.e. false for invalid
     :param index_smiles: list of SMILES to index scores, used when the scored SMILES are fragments
     :returns: dataclass with transformed results
@@ -149,7 +145,7 @@ def compute_transform(
     names, scoring_function, transforms, weights = params
 
     component_results = compute_component_scores(
-        smilies, scoring_function, caches[component_type], valid_mask, index_smiles
+        smilies, scoring_function, cache, valid_mask, index_smiles
     )
 
     transformed_scores = []
@@ -159,7 +155,10 @@ def compute_transform(
         missing_scores = [smiles for smiles in index_smiles if smiles not in component_results.data]
     else:
         missing_scores = [smiles for smiles in smilies if smiles not in component_results.data]
+
     if missing_scores:
+        logger.debug(f"{cache=}")
+        logger.debug(f"{component_results.data.keys()=}")
         raise RuntimeError(f"Missing scores for {component_type} for {missing_scores}")
 
     for scores, transform in zip(
@@ -168,6 +167,13 @@ def compute_transform(
         ),
         transforms,
     ):
+
+        # NOTE: The valid SMILES here are the molecules which are both valid
+        #       AND not duplicates i.e. duplicate (and invalid) SMILES in the
+        #       BATCH are scored as zero.  This is the same behaviour as in
+        #       REINVENT3 and earlier.  The duplicate handling is independent
+        #       of the diversity filter (DF) which scores ALL duplicates as
+        #       zero i.e. the DF acts globally.
         if use_pumas:
             # PUMAS Transforms operate on float64 so the transformed result may be slightly different to reinvent base scoring.
             if transform:
